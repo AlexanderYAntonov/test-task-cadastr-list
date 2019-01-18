@@ -1,28 +1,63 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+	state = {
+		valid: false,
+		cadastrNumber: '',
+		status: false,
+	};
+
+	validate = () => {
+		let { cadastrNumber } = this.state;
+		cadastrNumber = cadastrNumber.trim();
+		const match = cadastrNumber.match(/[^:0-9]/);
+		if (cadastrNumber.length < 5 || match) {
+			this.setState({ valid: false });
+		} else {
+			this.setState({ valid: true });
+			return true;
+		}
+		return false;
+	};
+
+	handleClickOK = () => {
+		if (this.validate()) {
+			this.setState({ status: true });
+		}
+	};
+
+	handleChange = event => {
+		const { id, value } = event.currentTarget;
+		this.setState({ [id]: value, status: false });
+	};
+
+	render() {
+		const { status, cadastrNumber, valid } = this.state;
+		return (
+			<div className="App">
+				<header className="App-header">
+					<label name="inputCN">
+						<span>Введите кадастровый номер</span>
+						<input
+							type="text"
+							id="cadastrNumber"
+							className={valid ? 'inputOK' : 'inputError'}
+							onChange={this.handleChange}
+							autoFocus={true}
+						/>
+					</label>
+					<input
+						type="button"
+						className="btn"
+						value="Найти"
+						onClick={this.handleClickOK}
+					/>
+				</header>
+				<div>{status && <p>Введен корректный номер {cadastrNumber}</p>}</div>
+			</div>
+		);
+	}
 }
 
 export default App;

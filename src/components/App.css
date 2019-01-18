@@ -9,10 +9,9 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 10vh;
+  min-height: 50vh;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -30,18 +29,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-span {
-  margin: 10px;
-}
-
-input {
-  margin: 10px;
-  height: 30px;
-  border-radius: 5px;
-}
-
-.inputError {
-  border:1px solid red;
 }
