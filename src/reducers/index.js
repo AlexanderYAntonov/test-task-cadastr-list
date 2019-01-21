@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { pageReducer } from './page';
-import { userReducer } from './user';
+import { listReducer } from './list';
+import { headerInputReducer } from './headerInput';
 export const rootReducer = combineReducers({
-	page: pageReducer,
-	user: userReducer,
+	list: listReducer,
+	headerInput: headerInputReducer,
 });
