@@ -2,14 +2,17 @@ export const GET_LIST_REQUEST = 'GET_LIST_REQUEST';
 export const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
 export const GET_LIST_ERROR = 'GET_LIST_ERROR';
 
-export function getList(number) {
+/*
+export function getList(str) {
 	return dispatch => {
+		console.log('getList started for ', str);
+
 		dispatch({
 			type: GET_LIST_REQUEST,
-			payload: number,
+			payload: str,
 		});
 
-		let objects = [1, 2, 3, 4, 5];
+		let objects = str.split('');
 
 		setTimeout(() => {
 			dispatch({
@@ -18,4 +21,4 @@ export function getList(number) {
 			});
 		}, 1000);
 	};
-}
+}*/

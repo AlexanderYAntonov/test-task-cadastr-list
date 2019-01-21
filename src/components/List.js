@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../App.css';
 export class List extends React.Component {
 	/*onBtnClick = e => {
 		const year = +e.currentTarget.innerText;
@@ -25,35 +26,45 @@ export class List extends React.Component {
 		if (objects.length) {
 			listTemplate = objects.map(function(item, index) {
 				return (
-					<div key={index} className="object">
-						<span>{item} object</span>
-					</div>
+					<tr key={index} className="object">
+						<td>{index}</td>
+						<td>{item.objectCn}</td>
+						<td>{item.objectType}</td>
+						<td>{item.addressNotes}</td>
+					</tr>
 				);
 			});
-		} else {
-			listTemplate = <p>No objects</p>;
 		}
 		return listTemplate;
 	};
 
 	render() {
-		const { cadastrString, isFetching } = this.props;
-		return (
-			<div className="list ib">
-				<div className="gallery">
+		const { cadastrString, isFetching, objects } = this.props;
+		if (objects.length) {
+			return (
+				<div className="list">
 					{isFetching ? (
-						<p>Загружаем для кадастрового номера ${cadastrString}</p>
+						<p>Загружаем для кадастрового номера {cadastrString}</p>
 					) : (
-						this.renderTemplate()
+						<table className="listTable">
+							<thead>
+								<td>#</td>
+								<td>Кадастровый номер</td>
+								<td>Тип</td>
+								<td>Адрес</td>
+							</thead>
+							{this.renderTemplate()}
+						</table>
 					)}
 				</div>
-			</div>
-		);
+			);
+		}
+		return <p>Нет данных для отображения</p>;
 	}
 }
 List.propTypes = {
 	cadastrString: PropTypes.string.isRequired,
 	objects: PropTypes.array.isRequired,
 	isFetching: PropTypes.bool.isRequired,
-	getList: PropTypes.func.isRequired,
+	//getList: PropTypes.func.isRequired,
 };

@@ -6,10 +6,12 @@
 
 const initialState = {
 	isValid: false,
+	testText: '',
 };
 
 export function headerInputReducer(state = initialState, action) {
-	/*switch (action.type) {
+	/*
+	switch (action.type) {
 		case LOGIN_REQUEST:
 			return { ...state, isFetching: true, error: '' };
 		case LOGIN_SUCCESS:
@@ -21,6 +23,7 @@ export function headerInputReducer(state = initialState, action) {
 			};
 		case LOGIN_FAIL:
 			return { ...state, isFetching: false, error: action.payload.message };
+		
 		default:
 			return state;
 	}*/

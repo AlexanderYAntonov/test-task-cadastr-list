@@ -22,10 +22,13 @@ export class HeaderInput extends React.Component {
 	};
 
 	handleClickOK = () => {
-		const { handleInput } = this.props;
 		if (this.validate()) {
 			this.setState({ status: true });
-			handleInput(this.state.cadastrString);
+			console.log(
+				'Ready to launch handleInput for string ',
+				this.state.cadastrString
+			);
+			this.props.handleInput(this.state.cadastrString);
 		}
 	};
 
@@ -35,10 +38,10 @@ export class HeaderInput extends React.Component {
 	};
 
 	render() {
-		const { status, cadastrString, valid } = this.state;
+		const { valid } = this.state;
 
 		return (
-			<div className="App">
+			<React.Fragment>
 				<header className="App-header">
 					<label name="inputCN">
 						<span>Введите кадастровый номер</span>
@@ -57,8 +60,7 @@ export class HeaderInput extends React.Component {
 						onClick={this.handleClickOK}
 					/>
 				</header>
-				<div>{status && <p>Введен корректный номер {cadastrString}</p>}</div>
-			</div>
+			</React.Fragment>
 		);
 	}
 	/*renderTemplate = () => {
