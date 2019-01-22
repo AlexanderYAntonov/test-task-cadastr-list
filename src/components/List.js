@@ -1,7 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
 import '../App.css';
+
+const customStyles = {
+	content: {
+		top: '50%',
+		left: '50%',
+		right: 'auto',
+		bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)',
+		padding: '10px',
+	},
+	overlay: {
+		backgroundColor: 'rgba(0,0,0,0.7)',
+	},
+};
 export class List extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			modalIsOpen: false,
+		};
+	}
+
+	openModal = () => {
+		this.setState({ modalIsOpen: true });
+	};
+
+	closeModal = () => {
+		this.setState({ modalIsOpen: false });
+	};
+
 	handleSpanClick = e => {
 		e.preventDefault();
 
@@ -10,6 +42,7 @@ export class List extends React.Component {
 		const objectType = itemID[1];
 
 		this.props.showDetails(objectId, objectType);
+		this.openModal();
 	};
 
 	renderTemplate = () => {
@@ -22,7 +55,11 @@ export class List extends React.Component {
 					<tr key={index} className="object">
 						<td>{index}</td>
 						<td>
-							<span onClick={this.handleSpanClick} id={itemID}>
+							<span
+								onClick={this.handleSpanClick}
+								id={itemID}
+								className="clickableSpan"
+							>
 								{item.objectCn}
 							</span>
 						</td>
@@ -36,49 +73,62 @@ export class List extends React.Component {
 	};
 
 	render() {
-		const {
-			cadastrString,
-			isFetching,
-			objects,
-			isModal,
-			modalObjectId,
-			objectModal,
-		} = this.props;
+		const { cadastrString, isFetching, objects, objectModal } = this.props;
+		const { modalIsOpen } = this.state;
+
 		if (objects.length) {
 			return (
-				<div className="list">
-					{isModal && modalObjectId && (
-						<p>
-							Show Modal for {modalObjectId}
-							{objectModal.dateCreated}
-							{objectModal.name}
-							{objectModal.encumbrances && 'YES'}
-							{!objectModal.encumbrances && 'NO'}
-						</p>
-					)}
-					{isFetching ? (
-						<p>Загружаем для кадастрового номера {cadastrString}</p>
-					) : (
-						<table className="listTable">
+				<React.Fragment>
+					<div className="list">
+						{isFetching ? (
+							<p>Загружаем для кадастрового номера {cadastrString}</p>
+						) : (
+							<table className="listTable">
+								<thead>
+									<tr>
+										<td>#</td>
+										<td>Кадастровый номер</td>
+										<td>Тип</td>
+										<td>Адрес</td>
+									</tr>
+								</thead>
+								<tbody>{this.renderTemplate()}</tbody>
+							</table>
+						)}
+					</div>
+					<Modal
+						isOpen={modalIsOpen}
+						ariaHideApp={false}
+						style={customStyles}
+						onRequestClose={this.closeModal}
+					>
+						<table className="modalTable">
 							<thead>
 								<tr>
-									<td>#</td>
-									<td>Кадастровый номер</td>
-									<td>Тип</td>
-									<td>Адрес</td>
+									<td>Дата записи</td>
+									<td>Наименование</td>
+									<td>Обременения</td>
 								</tr>
 							</thead>
-							<tbody>{this.renderTemplate()}</tbody>
+							<tbody>
+								<tr>
+									<td>{objectModal.dateCreated}</td>
+									<td>{objectModal.name}</td>
+									<td>
+										{objectModal.encumbrances && 'З'}
+										{!objectModal.encumbrances && 'Не з'}арегистрированы
+									</td>
+								</tr>
+							</tbody>
 						</table>
-					)}
-				</div>
+					</Modal>
+				</React.Fragment>
 			);
 		}
 		return <p>Нет данных для отображения</p>;
 	}
 }
 List.propTypes = {
-	isModal: PropTypes.bool.isRequired,
 	modalObjectId: PropTypes.string.isRequired,
 	objectModal: PropTypes.object.isRequired,
 	cadastrString: PropTypes.string.isRequired,

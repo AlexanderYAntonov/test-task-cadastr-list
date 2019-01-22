@@ -14,16 +14,13 @@ class ListContainer extends Component {
 				isFetching={list.isFetching}
 				error={list.error}
 				showDetails={showDetails}
-				isModal={list.isModal}
 				modalObjectId={list.modalObjectId}
-				isModalFetching={list.isModalFetching}
 				objectModal={list.objectModal}
 			/>
 		);
 	}
 }
 const mapStateToProps = store => {
-	console.log(store);
 	return {
 		list: store.list,
 	};

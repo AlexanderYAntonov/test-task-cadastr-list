@@ -6,19 +6,18 @@ import {
 
 export const LOCAL_URL = 'http://localhost:3000/examples/';
 const LOCAL_URL_END = 'obj_list.json';
+const FIR_URL = 'https://rosreestr.ru/fir_lite_rest/api/gkn/fir_objects/';
 
 export function httpGet(url) {
 	return new Promise(function(resolve, reject) {
-		console.log('URL = ', url);
-
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest();
 		xhr.open('GET', url, true);
 
 		xhr.onload = function() {
 			if (this.status === 200) {
 				resolve(this.response);
 			} else {
-				var error = new Error(this.statusText);
+				let error = new Error(this.statusText);
 				error.code = this.status;
 				reject(error);
 			}
@@ -32,6 +31,7 @@ export function httpGet(url) {
 	});
 }
 
+//consvert JSON response to simple object
 const convertJSON = (response, cadastrString) => {
 	let result = JSON.parse(response);
 
@@ -43,26 +43,8 @@ const convertJSON = (response, cadastrString) => {
 		}
 	});
 	result = result.map(item => {
-		/*let objectTypeText = '';
-		switch (item.objectType) {
-			case 'parcel':
-				objectTypeText = 'Земельный участок';
-				break;
-			case 'flat':
-				objectTypeText = 'Квартира';
-				break;
-			case 'building':
-				objectTypeText = 'Здание';
-				break;
-			case 'construction':
-				objectTypeText = 'Сооружение';
-				break;
-			default:
-				objectTypeText = item.objectType;
-		}*/
 		return {
 			objectCn: item.objectCn,
-			//objectType: objectTypeText,
 			objectType: item.objectType,
 			addressNotes: item.addressNotes,
 			objectId: item.objectId,
@@ -73,16 +55,12 @@ const convertJSON = (response, cadastrString) => {
 
 export function handleInput(cadastrString) {
 	return dispatch => {
-		console.log('Handle input started for ', cadastrString);
 		dispatch({
 			type: GET_LIST_REQUEST,
 			payload: cadastrString,
 		});
 
-		const url =
-			'https://rosreestr.ru/fir_lite_rest/api/gkn/fir_objects/' +
-			cadastrString +
-			'*';
+		const url = FIR_URL + cadastrString + '*';
 
 		let result = [];
 

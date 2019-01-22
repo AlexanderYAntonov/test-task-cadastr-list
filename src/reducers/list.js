@@ -12,9 +12,7 @@ const initialState = {
 	objects: [],
 	isFetching: false,
 	error: '',
-	isModal: false,
 	modalObjectId: '',
-	isModalFetching: false,
 	objectModal: {},
 };
 export function listReducer(state = initialState, action) {
@@ -34,22 +32,16 @@ export function listReducer(state = initialState, action) {
 			return {
 				...state,
 				modalObjectId: action.payload,
-				isModal: true,
-				isModalFetching: true,
 			};
 		case SHOW_DETAILS_SUCCESS:
 			return {
 				...state,
 				objectModal: action.payload,
-				isModal: true,
-				isModalFetching: false,
 			};
 		case SHOW_DETAILS_ERROR:
 			return {
 				...state,
 				error: action.payload,
-				isModal: true,
-				isModalFetching: false,
 			};
 		default:
 			return state;

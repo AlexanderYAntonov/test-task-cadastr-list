@@ -39,6 +39,7 @@ const convertJSON = (response, objectType) => {
 	return resultShort;
 };
 
+//fetch details for modal window
 export function showDetails(objectId, objectType) {
 	return dispatch => {
 		dispatch({

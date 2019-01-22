@@ -12,7 +12,8 @@ export class HeaderInput extends React.Component {
 		let { cadastrString } = this.state;
 		cadastrString = cadastrString.trim();
 		const match = cadastrString.match(/[^:0-9]/);
-		if (cadastrString.length < 5 || match) {
+		const matchDouble = cadastrString.match(/::/);
+		if (cadastrString.length < 5 || match || matchDouble) {
 			this.setState({ valid: false });
 		} else {
 			this.setState({ valid: true });
@@ -21,13 +22,10 @@ export class HeaderInput extends React.Component {
 		return false;
 	};
 
+	//handle button click
 	handleClickOK = () => {
 		if (this.validate()) {
 			this.setState({ status: true });
-			console.log(
-				'Ready to launch handleInput for string ',
-				this.state.cadastrString
-			);
 			this.props.handleInput(this.state.cadastrString);
 		}
 	};
