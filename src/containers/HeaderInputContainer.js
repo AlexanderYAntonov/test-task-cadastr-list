@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HeaderInput } from '../components/HeaderInput';
 import { handleInput } from '../actions/HeaderInputActions';
-//import { someHeaderAction } from '../actions/HeaderInputActions';
 
 class HeaderInputContainer extends Component {
 	render() {

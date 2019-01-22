@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from '../components/List';
-//import { getList } from '../actions/ListActions';
+import { showDetails } from '../actions/ListActions';
 
 class ListContainer extends Component {
 	render() {
-		const { list } = this.props;
+		const { list, showDetails } = this.props;
 
 		return (
 			<List
@@ -13,6 +13,11 @@ class ListContainer extends Component {
 				cadastrString={list.cadastrString}
 				isFetching={list.isFetching}
 				error={list.error}
+				showDetails={showDetails}
+				isModal={list.isModal}
+				modalObjectId={list.modalObjectId}
+				isModalFetching={list.isModalFetching}
+				objectModal={list.objectModal}
 			/>
 		);
 	}
@@ -23,10 +28,13 @@ const mapStateToProps = store => {
 		list: store.list,
 	};
 };
-/*const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
 	return {
-		getList: number => dispatch(getList(number)),
+		showDetails: (objectId, objectType) =>
+			dispatch(showDetails(objectId, objectType)),
 	};
-};*/
-export default connect(mapStateToProps /*,
-	mapDispatchToProps*/)(ListContainer);
+};
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ListContainer);

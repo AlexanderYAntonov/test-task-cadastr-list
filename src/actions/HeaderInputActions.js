@@ -4,15 +4,10 @@ import {
 	GET_LIST_ERROR,
 } from '../actions/ListActions';
 
-const LOCAL_URL = 'http://localhost:3000/examples/obj_list.json';
+export const LOCAL_URL = 'http://localhost:3000/examples/';
+const LOCAL_URL_END = 'obj_list.json';
 
-/*
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-*/
-
-function httpGet(url) {
+export function httpGet(url) {
 	return new Promise(function(resolve, reject) {
 		console.log('URL = ', url);
 
@@ -48,7 +43,7 @@ const convertJSON = (response, cadastrString) => {
 		}
 	});
 	result = result.map(item => {
-		let objectTypeText = '';
+		/*let objectTypeText = '';
 		switch (item.objectType) {
 			case 'parcel':
 				objectTypeText = 'Земельный участок';
@@ -64,10 +59,11 @@ const convertJSON = (response, cadastrString) => {
 				break;
 			default:
 				objectTypeText = item.objectType;
-		}
+		}*/
 		return {
 			objectCn: item.objectCn,
-			objectType: objectTypeText,
+			//objectType: objectTypeText,
+			objectType: item.objectType,
 			addressNotes: item.addressNotes,
 			objectId: item.objectId,
 		};
@@ -100,7 +96,7 @@ export function handleInput(cadastrString) {
 				});
 			},
 			error => {
-				httpGet(LOCAL_URL).then(
+				httpGet(LOCAL_URL + LOCAL_URL_END).then(
 					response => {
 						//convert response to filtered array
 						result = convertJSON(response, cadastrString);
@@ -118,13 +114,5 @@ export function handleInput(cadastrString) {
 				);
 			}
 		);
-
-		/*
-		setTimeout(() => {
-			dispatch({
-				type: GET_LIST_SUCCESS,
-				payload: objects,
-			});
-		}, 1000);*/
 	};
 }
